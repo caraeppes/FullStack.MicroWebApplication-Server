@@ -31,6 +31,10 @@ public class MessageService {
         return messageRespository.findBySender(sender, pageable);
     }
 
+    public Message findById(Long id){
+        return messageRespository.getOne(id);
+    }
+
     public Boolean delete(Long id){
         messageRespository.deleteById(id);
         return true;
@@ -39,5 +43,11 @@ public class MessageService {
     public Boolean deleteAll(){
         messageRespository.deleteAll();
         return true;
+    }
+
+    public Message updateMessage(Long id, String content){
+        Message original = messageRespository.getOne(id);
+        original.setMessageContent(content);
+        return messageRespository.save(original);
     }
 }
