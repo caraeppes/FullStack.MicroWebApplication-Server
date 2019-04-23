@@ -4,6 +4,7 @@ import com.example.tcpApp.controllers.PrivateChannelController;
 import com.example.tcpApp.models.PrivateChannel;
 import com.example.tcpApp.models.User;
 import com.example.tcpApp.services.PrivateChannelService;
+import com.example.tcpApp.services.UserService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,11 +26,14 @@ public class PrivateChannelControllerTests {
     @MockBean
     private PrivateChannelService privateChannelService;
 
+    @MockBean
+    private UserService userService;
+
     private PrivateChannelController privateChannelController;
 
     @Before
     public void setup() {
-        this.privateChannelController = new PrivateChannelController(privateChannelService);
+        this.privateChannelController = new PrivateChannelController(privateChannelService, userService);
     }
 
     @Test
@@ -115,55 +119,6 @@ public class PrivateChannelControllerTests {
         // Then
         Assert.assertEquals(expected, actual);
         Assert.assertEquals(expectedPrivateChannels, actualPrivateChannels);
-    }
-
-    @Test
-    public void addUserTest() {
-        // Given
-        PrivateChannel expectedPrivateChannel = new PrivateChannel();
-        Long privateChannelId = 10L;
-        expectedPrivateChannel.setId(privateChannelId);
-        User user = new User();
-        List<User> users = new ArrayList<>();
-        users.add(user);
-        expectedPrivateChannel.setUsers(users);
-        HttpStatus expected = HttpStatus.OK;
-        BDDMockito.
-                given(privateChannelService.addUser(user, privateChannelId))
-                .willReturn(expectedPrivateChannel);
-
-        // When
-        ResponseEntity<PrivateChannel> response = privateChannelController.addUser(user, privateChannelId);
-        HttpStatus actual = response.getStatusCode();
-        PrivateChannel actualPrivateChannel = response.getBody();
-
-        // Then
-        Assert.assertEquals(expected, actual);
-        Assert.assertEquals(expectedPrivateChannel, actualPrivateChannel);
-    }
-
-    @Test
-    public void removeUserTest() {
-        // Given
-        PrivateChannel privateChannel = new PrivateChannel();
-        String privateChannelName = "chatter";
-        privateChannel.setChannelName(privateChannelName);
-        PrivateChannel expectedPrivateChannel = privateChannel;
-        User user = new User();
-        privateChannel.getUsers().add(user);
-        HttpStatus expected = HttpStatus.OK;
-        BDDMockito.
-                given(privateChannelService.removeUser(user, privateChannelName))
-                .willReturn(expectedPrivateChannel);
-
-        // When
-        ResponseEntity<PrivateChannel> response = privateChannelController.removeUser(user, privateChannelName);
-        HttpStatus actual = response.getStatusCode();
-        PrivateChannel actualPrivateChannel = response.getBody();
-
-        // Then
-        Assert.assertEquals(expected, actual);
-        Assert.assertEquals(expectedPrivateChannel, actualPrivateChannel);
     }
 
     @Test

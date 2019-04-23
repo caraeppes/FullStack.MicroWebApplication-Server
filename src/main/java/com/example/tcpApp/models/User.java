@@ -29,6 +29,15 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<Channel> channels = new HashSet<>();
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "private_channels_users",
+            joinColumns = @JoinColumn(name = "private_channel_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<PrivateChannel> privateChannels = new HashSet<>();
 
     public User() {
         connected = false;
@@ -77,8 +86,16 @@ public class User {
     public Set<Channel> getChannels() {
         return channels;
     }
+
     public void setChannels(Set<Channel> channels) {
         this.channels = channels;
     }
 
+    public Set<PrivateChannel> getPrivateChannels() {
+        return privateChannels;
+    }
+
+    public void setPrivateChannels(Set<PrivateChannel> privateChannels) {
+        this.privateChannels = privateChannels;
+    }
 }

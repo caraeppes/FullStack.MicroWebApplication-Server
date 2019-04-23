@@ -1,7 +1,6 @@
 package com.example.tcpApp.services;
 
 import com.example.tcpApp.models.Channel;
-import com.example.tcpApp.models.User;
 import com.example.tcpApp.repositories.ChannelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,18 +29,6 @@ public class ChannelService {
 
     public Iterable<Channel> findAll(){
         return channelRepository.findAll();
-    }
-
-    public Channel addUser(User user, Long channelId){
-        Channel original = channelRepository.getOne(channelId);
-        original.getUsers().add(user);
-        return channelRepository.save(original);
-    }
-
-    public Channel removeUser(User user, String channel){
-        Channel original = channelRepository.findByChannelName(channel);
-        original.getUsers().remove(user);
-        return channelRepository.save(original);
     }
 
     public Boolean delete(Long id){

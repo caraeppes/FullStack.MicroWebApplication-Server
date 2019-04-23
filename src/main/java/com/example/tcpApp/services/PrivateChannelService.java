@@ -6,15 +6,16 @@ import com.example.tcpApp.repositories.PrivateChannelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class PrivateChannelService {
 
-    private PrivateChannelRepository privateChannelRepository;
-
     @Autowired
-    public PrivateChannelService(PrivateChannelRepository privateChannelRepository) {
-        this.privateChannelRepository = privateChannelRepository;
-    }
+    private PrivateChannelRepository privateChannelRepository;
+    @Autowired
+    private UserService userService;
 
     public PrivateChannel create(PrivateChannel channel){
         return privateChannelRepository.save(channel);
@@ -28,20 +29,18 @@ public class PrivateChannelService {
         return privateChannelRepository.getOne(id);
     }
 
+    public Iterable<PrivateChannel> findAllByUser(User user) {
+        List<PrivateChannel> privateChannels = new ArrayList<>();
+        for (PrivateChannel c : findAll()) {
+            if (userService.findAllByPrivateChannel(c, null).contains(user)) {
+                privateChannels.add(c);
+            }
+        }
+        return privateChannels;
+    }
+
     public Iterable<PrivateChannel> findAll(){
         return privateChannelRepository.findAll();
-    }
-
-    public PrivateChannel addUser(User user, Long channelId){
-        PrivateChannel original = privateChannelRepository.getOne(channelId);
-        original.getUsers().add(user);
-        return privateChannelRepository.save(original);
-    }
-
-    public PrivateChannel removeUser(User user, String channel){
-        PrivateChannel original = privateChannelRepository.findByChannelName(channel);
-        original.getUsers().remove(user);
-        return privateChannelRepository.save(original);
     }
 
     public Boolean delete(Long id){

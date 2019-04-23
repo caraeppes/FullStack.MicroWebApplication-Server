@@ -1,9 +1,9 @@
 package com.example.tcpApp.serviceTests;
 
 import com.example.tcpApp.models.PrivateChannel;
-import com.example.tcpApp.models.User;
 import com.example.tcpApp.repositories.PrivateChannelRepository;
 import com.example.tcpApp.services.PrivateChannelService;
+import com.example.tcpApp.services.UserService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,11 +28,8 @@ public class PrivateChannelServiceTests {
     @Autowired
     PrivateChannelService privateChannelService;
 
-    @Before
-    public void setup(){
-        privateChannelRepository = mock(PrivateChannelRepository.class);
-        privateChannelService = new PrivateChannelService(privateChannelRepository);
-    }
+    @MockBean
+    UserService userService;
 
     @Test
     public void testCreate() {
@@ -97,46 +94,6 @@ public class PrivateChannelServiceTests {
 
         // When
         Iterable<PrivateChannel> actual = privateChannelService.findAll();
-
-        // Then
-        Assert.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void addUserTest() {
-        // Given
-        PrivateChannel privateChannel = new PrivateChannel();
-        privateChannel.setId(1L);
-        User user = new User();
-        PrivateChannel expected = privateChannel;
-        expected.getUsers().add(user);
-        when(privateChannelRepository.getOne(1L))
-                .thenReturn(privateChannel);
-        when(privateChannelRepository.save(privateChannel))
-                .thenReturn(expected);
-
-        // When
-        PrivateChannel actual = privateChannelService.addUser(user, 1L);
-
-        // Then
-        Assert.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void removeUserTest() {
-        // Given
-        PrivateChannel privateChannel = new PrivateChannel();
-        privateChannel.setChannelName("test");
-        PrivateChannel expected = privateChannel;
-        User user = new User();
-        privateChannel.getUsers().add(user);
-        when(privateChannelRepository.findByChannelName("test"))
-                .thenReturn(privateChannel);
-        when(privateChannelRepository.save(privateChannel))
-                .thenReturn(expected);
-
-        // When
-        PrivateChannel actual = privateChannelService.removeUser(user, "test");
 
         // Then
         Assert.assertEquals(expected, actual);

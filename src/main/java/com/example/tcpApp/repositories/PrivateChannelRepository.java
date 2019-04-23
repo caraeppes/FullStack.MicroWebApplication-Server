@@ -1,6 +1,7 @@
 package com.example.tcpApp.repositories;
 
 import com.example.tcpApp.models.PrivateChannel;
+import com.example.tcpApp.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,4 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface PrivateChannelRepository extends JpaRepository<PrivateChannel, Long> {
 
     PrivateChannel findByChannelName(String channelName);
+
+    Iterable<PrivateChannel> findAllByUsers(User user);
+
 }
+

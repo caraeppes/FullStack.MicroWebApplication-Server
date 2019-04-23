@@ -163,7 +163,7 @@ public class UserControllerTests {
         users.add(user2);
         Pageable pageable = PageRequest.of(0, 20);
 
-        when(mockUserService.findAllByChannels(1L, pageable)).thenReturn(users);
+        when(mockUserService.findAllByChannel(1L, pageable)).thenReturn(users);
 
         mockMvc.perform(get("/users/findByChannel/{channelId}", 1L))
                 .andExpect(status().isOk())
@@ -175,7 +175,7 @@ public class UserControllerTests {
                 .andExpect(jsonPath("$[1].lastName", is("Franco")))
                 .andExpect(jsonPath("$[1].username", is("frankie")));
 
-        verify(mockUserService, times(1)).findAllByChannels(1L, pageable);
+        verify(mockUserService, times(1)).findAllByChannel(1L, pageable);
         verifyNoMoreInteractions(mockUserService);
     }
 

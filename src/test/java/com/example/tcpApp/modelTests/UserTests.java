@@ -26,8 +26,8 @@ public class UserTests {
         user.setFirstName("Cara");
         user.setLastName("Eppes");
         user.setUsername("caraeppes");
-        String expected = "{\"id\":null,\"firstName\":\"Cara\",\"lastName\":" +
-                "\"Eppes\",\"username\":\"caraeppes\",\"connected\":false,\"channels\":[]}";
+        String expected = "{\"id\":null,\"firstName\":\"Cara\",\"lastName\":\"Eppes\",\"username\":\"caraeppes\"," +
+                "\"connected\":false,\"channels\":[],\"privateChannels\":[]}";
 
         // when
         String actual = objectMapper.writeValueAsString(user);

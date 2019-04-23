@@ -1,7 +1,6 @@
 package com.example.tcpApp.serviceTests;
 
 import com.example.tcpApp.models.Channel;
-import com.example.tcpApp.models.User;
 import com.example.tcpApp.repositories.ChannelRepository;
 import com.example.tcpApp.services.ChannelService;
 import org.junit.Assert;
@@ -97,46 +96,6 @@ public class ChannelServiceTests {
 
         // When
         Iterable<Channel> actual = channelService.findAll();
-
-        // Then
-        Assert.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void addUserTest() {
-        // Given
-        Channel channel = new Channel();
-        channel.setId(1L);
-        User user = new User();
-        Channel expected = channel;
-        expected.getUsers().add(user);
-        when(channelRepository.getOne(1L))
-                .thenReturn(channel);
-        when(channelRepository.save(channel))
-            .thenReturn(expected);
-
-        // When
-        Channel actual = channelService.addUser(user, 1L);
-
-        // Then
-        Assert.assertEquals(expected, actual);
-    }
-
-    @Test
-    public void removeUserTest() {
-        // Given
-        Channel channel = new Channel();
-        channel.setChannelName("test");
-        Channel expected = channel;
-        User user = new User();
-        channel.getUsers().add(user);
-        when(channelRepository.findByChannelName("test"))
-                .thenReturn(channel);
-        when(channelRepository.save(channel))
-                .thenReturn(expected);
-
-        // When
-        Channel actual = channelService.removeUser(user, "test");
 
         // Then
         Assert.assertEquals(expected, actual);

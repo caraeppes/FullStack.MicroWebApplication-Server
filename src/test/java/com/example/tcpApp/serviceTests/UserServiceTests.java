@@ -16,10 +16,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -32,13 +30,10 @@ public class UserServiceTests {
 
     @Autowired
     private UserService userService;
-
     @MockBean
     private UserRepository userRepositoryMock;
-
     @MockBean
     private ChannelService channelServiceMock;
-
     @MockBean
     private ChannelRepository channelRepositoryMock;
 
@@ -208,7 +203,6 @@ public class UserServiceTests {
 
         verify(userRepositoryMock, times(1)).getOne(2l);
         verify(channelRepositoryMock, times(1)).getOne(0l);
-        verify(channelServiceMock, times(1)).addUser(user2, 0l);
         verify(userRepositoryMock, times(1)).save(user2);
         verifyNoMoreInteractions(userRepositoryMock);
         verifyNoMoreInteractions(channelRepositoryMock);
@@ -229,7 +223,6 @@ public class UserServiceTests {
 
         verify(userRepositoryMock, times(1)).findByUsername("ashblox");
         verify(channelRepositoryMock, times(1)).findByChannelName("Test");
-        verify(channelServiceMock, times(1)).addUser(user1, 0l);
         verify(userRepositoryMock, times(1)).save(user1);
         verifyNoMoreInteractions(userRepositoryMock);
         verifyNoMoreInteractions(channelRepositoryMock);
@@ -251,7 +244,6 @@ public class UserServiceTests {
 
         verify(userRepositoryMock, times(1)).findByUsername("ceppes");
         verify(channelRepositoryMock, times(1)).findByChannelName("Test");
-        verify(channelServiceMock, times(1)).removeUser(user2, "Test");
         verify(userRepositoryMock, times(1)).save(user2);
         verifyNoMoreInteractions(userRepositoryMock);
         verifyNoMoreInteractions(channelRepositoryMock);
@@ -271,7 +263,7 @@ public class UserServiceTests {
         when(channelServiceMock.findById(0l)).thenReturn(channel);
         when(userRepositoryMock.findAllByChannels(channel, PageRequest.of(0, 20))).thenReturn(users);
 
-        assertThat(userService.findAllByChannels(0l, PageRequest.of(0, 20)), is(users));
+        assertThat(userService.findAllByChannel(0l, PageRequest.of(0, 20)), is(users));
 
         verify(channelServiceMock, times(1)).findById(0l);
         verify(userRepositoryMock, times(1)).findAllByChannels(channel, PageRequest.of(0, 20));

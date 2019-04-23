@@ -118,55 +118,6 @@ public class ChannelControllerTests {
     }
 
     @Test
-    public void addUserTest() {
-        // Given
-        Channel expectedChannel = new Channel();
-        Long channelId = 10L;
-        expectedChannel.setId(channelId);
-        User user = new User();
-        List<User> users = new ArrayList<>();
-        users.add(user);
-        expectedChannel.setUsers(users);
-        HttpStatus expected = HttpStatus.OK;
-        BDDMockito.
-                given(channelService.addUser(user, channelId))
-                .willReturn(expectedChannel);
-
-        // When
-        ResponseEntity<Channel> response = channelController.addUser(user, channelId);
-        HttpStatus actual = response.getStatusCode();
-        Channel actualChannel = response.getBody();
-
-        // Then
-        Assert.assertEquals(expected, actual);
-        Assert.assertEquals(expectedChannel, actualChannel);
-    }
-
-    @Test
-    public void removeUserTest() {
-        // Given
-        Channel channel = new Channel();
-        String channelName = "chatter";
-        channel.setChannelName(channelName);
-        Channel expectedChannel = channel;
-        User user = new User();
-        channel.getUsers().add(user);
-        HttpStatus expected = HttpStatus.OK;
-        BDDMockito.
-                given(channelService.removeUser(user, channelName))
-                .willReturn(expectedChannel);
-
-        // When
-        ResponseEntity<Channel> response = channelController.removeUser(user, channelName);
-        HttpStatus actual = response.getStatusCode();
-        Channel actualChannel = response.getBody();
-
-        // Then
-        Assert.assertEquals(expected, actual);
-        Assert.assertEquals(expectedChannel, actualChannel);
-    }
-
-    @Test
     public void deleteTest() {
         // Given
         Channel channel = new Channel();

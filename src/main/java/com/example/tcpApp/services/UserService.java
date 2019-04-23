@@ -1,8 +1,10 @@
 package com.example.tcpApp.services;
 
 import com.example.tcpApp.models.Channel;
+import com.example.tcpApp.models.PrivateChannel;
 import com.example.tcpApp.models.User;
 import com.example.tcpApp.repositories.ChannelRepository;
+import com.example.tcpApp.repositories.PrivateChannelRepository;
 import com.example.tcpApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +21,10 @@ public class UserService {
     private ChannelService channelService;
     @Autowired
     private ChannelRepository channelRepository;
+    @Autowired
+    private PrivateChannelRepository privateChannelRepository;
+    @Autowired
+    private PrivateChannelService privateChannelService;
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -72,7 +78,20 @@ public class UserService {
         User original = userRepository.getOne(userId);
         Channel channel = channelRepository.getOne(channelId);
         original.getChannels().add(channel);
-        channelService.addUser(original, channelId);
+        return userRepository.save(original);
+    }
+
+    public User joinPrivateChannel(Long userId, Long channelId) {
+        User original = userRepository.getOne(userId);
+        PrivateChannel privateChannel = privateChannelRepository.getOne(channelId);
+        original.getPrivateChannels().add(privateChannel);
+        return userRepository.save(original);
+    }
+
+    public User joinPrivateChannelByName(String username, String privateChannelName) {
+        User original = userRepository.findByUsername(username);
+        PrivateChannel privateChannel = privateChannelRepository.findByChannelName(privateChannelName);
+        original.getPrivateChannels().add(privateChannel);
         return userRepository.save(original);
     }
 
@@ -80,14 +99,12 @@ public class UserService {
         User original = userRepository.findByUsername(username);
         Channel channel = channelRepository.findByChannelName(channelName);
         original.getChannels().add(channel);
-        channelService.addUser(original, channel.getId());
         return userRepository.save(original);
     }
 
     public User leaveChannel(String username, String channelName) {
         User original = userRepository.findByUsername(username);
         Channel channel = channelRepository.findByChannelName(channelName);
-        channelService.removeUser(original, channel.getChannelName());
         Channel channelToRemove = null;
         for (Channel c : original.getChannels()) {
             if (c.getId() == channel.getId()) {
@@ -98,13 +115,33 @@ public class UserService {
         return userRepository.save(original);
     }
 
+    public User leavePrivateChannel(String username, String privateChannelName) {
+        User original = userRepository.findByUsername(username);
+        PrivateChannel privateChannel = privateChannelRepository.findByChannelName(privateChannelName);
+        PrivateChannel channelToRemove = null;
+        for (PrivateChannel c : original.getPrivateChannels()) {
+            if (c.getId() == privateChannel.getId()) {
+                channelToRemove = c;
+            }
+        }
+        original.getPrivateChannels().remove(channelToRemove);
+        return userRepository.save(original);
+    }
+
     public Boolean deleteAll() {
         userRepository.deleteAll();
         return true;
     }
 
-    public List<User> findAllByChannels(Long id, Pageable pageable) {
+    public List<User> findAllByChannel(Long id, Pageable pageable) {
         return userRepository.findAllByChannels(channelService.findById(id), pageable);
     }
 
+    public List<User> findAllByPrivateChannel(PrivateChannel privateChannel, Pageable pageable) {
+        return userRepository.findAllByPrivateChannels(privateChannel, pageable);
+    }
+
+    public List<User> findAllByPrivateChannel(Long id, Pageable pageable) {
+        return userRepository.findAllByPrivateChannels(privateChannelService.findById(id), pageable);
+    }
 }
