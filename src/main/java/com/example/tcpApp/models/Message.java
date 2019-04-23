@@ -18,7 +18,7 @@ public class Message {
     private Date timestamp;
     private String messageContent;
 
-    private Message(){}
+    public Message(){}
 
     public Message(String channel, String sender, Date timestamp, String messageContent) {
         this.channel = channel;

@@ -10,6 +10,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.xml.ws.Response;
 import java.util.List;
 
 @Controller
@@ -60,4 +62,13 @@ public class MessageController {
         return sendMessage(message).getBody();
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Message> updateMessage(@PathVariable Long id, @RequestParam String content){
+        return new ResponseEntity<>(messageService.updateMessage(id, content), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Message> findById(@PathVariable Long id){
+        return new ResponseEntity<>(messageService.findById(id), HttpStatus.OK);
+    }
 }
