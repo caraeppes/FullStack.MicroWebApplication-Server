@@ -30,7 +30,7 @@ public class ChannelTests {
         ObjectMapper objectMapper = new ObjectMapper();
         Channel channel = new Channel();
         channel.setChannelName(givenName);
-        String expected = "{\"id\":null,\"channelName\":\"chatter\"}";
+        String expected = "{\"id\":null,\"channelName\":\"chatter\",\"private\":false}";
 
         // When
         String actual = objectMapper.writeValueAsString(channel);

@@ -69,6 +69,11 @@ public class ChannelController {
     public ResponseEntity<Boolean> delete(@PathVariable Long id){
         return new ResponseEntity<>(channelService.delete(id), HttpStatus.NOT_FOUND);
     }
+
+    @PutMapping("/makePrivate/{id}")
+    public ResponseEntity<Channel> makePrivate(@PathVariable Long id){
+        return new ResponseEntity<>(channelService.makePrivate(id), HttpStatus.OK);
+    }
 }
 
 

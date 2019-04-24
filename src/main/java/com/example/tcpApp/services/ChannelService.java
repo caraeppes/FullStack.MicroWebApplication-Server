@@ -51,4 +51,10 @@ public class ChannelService {
         channelRepository.deleteById(id);
         return true;
     }
+
+    public Channel makePrivate(Long id){
+        Channel original = this.channelRepository.getOne(id);
+        original.setPrivate(true);
+        return channelRepository.save(original);
+    }
 }
