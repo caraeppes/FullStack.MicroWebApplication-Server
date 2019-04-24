@@ -1,6 +1,5 @@
 package com.example.tcpApp.modelTests;
 
-import com.example.tcpApp.models.BaseChannel;
 import com.example.tcpApp.models.Channel;
 import com.example.tcpApp.models.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,7 +20,7 @@ public class ChannelTests {
 
     @Test
     public void testInstanceOf() {
-        Assert.assertTrue(new Channel() instanceof BaseChannel);
+        Assert.assertTrue(new Channel() instanceof Channel);
     }
 
     @Test

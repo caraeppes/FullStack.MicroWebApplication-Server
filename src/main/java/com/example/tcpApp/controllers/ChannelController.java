@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/channels")
 public class ChannelController {
@@ -39,7 +38,12 @@ public class ChannelController {
 
     @GetMapping
     public ResponseEntity<Iterable<Channel>> findAll(){
-        return new ResponseEntity<>(channelService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(channelService.findByIsPrivate(false), HttpStatus.OK);
+    }
+
+    @GetMapping("/private")
+    public ResponseEntity<Iterable<Channel>> findAllPrivate(){
+        return new ResponseEntity<>(channelService.findByIsPrivate(true), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

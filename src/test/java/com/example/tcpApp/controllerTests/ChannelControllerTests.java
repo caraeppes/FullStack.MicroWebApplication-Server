@@ -2,7 +2,6 @@ package com.example.tcpApp.controllerTests;
 
 import com.example.tcpApp.controllers.ChannelController;
 import com.example.tcpApp.models.Channel;
-import com.example.tcpApp.models.User;
 import com.example.tcpApp.services.ChannelService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

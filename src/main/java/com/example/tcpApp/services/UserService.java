@@ -1,10 +1,8 @@
 package com.example.tcpApp.services;
 
 import com.example.tcpApp.models.Channel;
-import com.example.tcpApp.models.PrivateChannel;
 import com.example.tcpApp.models.User;
 import com.example.tcpApp.repositories.ChannelRepository;
-import com.example.tcpApp.repositories.PrivateChannelRepository;
 import com.example.tcpApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -21,10 +19,6 @@ public class UserService {
     private ChannelService channelService;
     @Autowired
     private ChannelRepository channelRepository;
-    @Autowired
-    private PrivateChannelRepository privateChannelRepository;
-    @Autowired
-    private PrivateChannelService privateChannelService;
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -81,20 +75,6 @@ public class UserService {
         return userRepository.save(original);
     }
 
-    public User joinPrivateChannel(Long userId, Long channelId) {
-        User original = userRepository.getOne(userId);
-        PrivateChannel privateChannel = privateChannelRepository.getOne(channelId);
-        original.getPrivateChannels().add(privateChannel);
-        return userRepository.save(original);
-    }
-
-    public User joinPrivateChannelByName(String username, String privateChannelName) {
-        User original = userRepository.findByUsername(username);
-        PrivateChannel privateChannel = privateChannelRepository.findByChannelName(privateChannelName);
-        original.getPrivateChannels().add(privateChannel);
-        return userRepository.save(original);
-    }
-
     public User joinChannelByName(String username, String channelName) {
         User original = userRepository.findByUsername(username);
         Channel channel = channelRepository.findByChannelName(channelName);
@@ -115,19 +95,6 @@ public class UserService {
         return userRepository.save(original);
     }
 
-    public User leavePrivateChannel(String username, String privateChannelName) {
-        User original = userRepository.findByUsername(username);
-        PrivateChannel privateChannel = privateChannelRepository.findByChannelName(privateChannelName);
-        PrivateChannel channelToRemove = null;
-        for (PrivateChannel c : original.getPrivateChannels()) {
-            if (c.getId() == privateChannel.getId()) {
-                channelToRemove = c;
-            }
-        }
-        original.getPrivateChannels().remove(channelToRemove);
-        return userRepository.save(original);
-    }
-
     public Boolean deleteAll() {
         userRepository.deleteAll();
         return true;
@@ -137,11 +104,4 @@ public class UserService {
         return userRepository.findAllByChannels(channelService.findById(id), pageable);
     }
 
-    public List<User> findAllByPrivateChannel(PrivateChannel privateChannel, Pageable pageable) {
-        return userRepository.findAllByPrivateChannels(privateChannel, pageable);
-    }
-
-    public List<User> findAllByPrivateChannel(Long id, Pageable pageable) {
-        return userRepository.findAllByPrivateChannels(privateChannelService.findById(id), pageable);
-    }
 }

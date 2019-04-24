@@ -31,6 +31,10 @@ public class ChannelService {
         return channelRepository.findAll();
     }
 
+    public Iterable<Channel> findByIsPrivate(boolean isPrivate) {
+        return channelRepository.findByIsPrivate(isPrivate);
+    }
+
     public Boolean delete(Long id){
         channelRepository.deleteById(id);
         return true;
