@@ -1,0 +1,13 @@
+com/example/tcpApp/serviceTests/ChannelServiceTests.class
+com/example/tcpApp/controllerTests/UserControllerTests.class
+com/example/tcpApp/controllerTests/PrivateChannelControllerTests.class
+com/example/tcpApp/serviceTests/MessageServiceTests.class
+com/example/tcpApp/serviceTests/TcpApplicationTests.class
+com/example/tcpApp/controllerTests/MessageControllerTests.class
+com/example/tcpApp/modelTests/UserTests.class
+com/example/tcpApp/serviceTests/UserServiceTests.class
+com/example/tcpApp/modelTests/ChannelTests.class
+com/example/tcpApp/controllerTests/ChannelControllerTests.class
+com/example/tcpApp/serviceTests/PrivateChannelServiceTests.class
+com/example/tcpApp/modelTests/PrivateChannelTests.class
+com/example/tcpApp/modelTests/MessageTests.class
