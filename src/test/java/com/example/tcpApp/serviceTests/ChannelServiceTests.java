@@ -27,12 +27,6 @@ public class ChannelServiceTests {
     @Autowired
     ChannelService channelService;
 
-    @Before
-    public void setup(){
-        channelRepository = mock(ChannelRepository.class);
-        channelService = new ChannelService(channelRepository);
-    }
-
     @Test
     public void testCreate() {
         // Given

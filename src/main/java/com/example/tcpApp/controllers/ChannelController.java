@@ -2,6 +2,7 @@ package com.example.tcpApp.controllers;
 
 import com.example.tcpApp.models.Channel;
 import com.example.tcpApp.services.ChannelService;
+import com.example.tcpApp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,9 @@ public class ChannelController {
 
     @Autowired
     private Channel defaultChannel;
+
+    @Autowired
+    private UserService userService;
 
     private ChannelService channelService;
 
@@ -44,6 +48,11 @@ public class ChannelController {
     @GetMapping("/private")
     public ResponseEntity<Iterable<Channel>> findAllPrivate(){
         return new ResponseEntity<>(channelService.findByIsPrivate(true), HttpStatus.OK);
+    }
+
+    @GetMapping("/private/{username}")
+    public ResponseEntity<Iterable<Channel>> findAllPMsOfAUser(@PathVariable String username){
+        return new ResponseEntity<>(channelService.findAllPMsOfAUser(userService.findByUsername(username)), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
