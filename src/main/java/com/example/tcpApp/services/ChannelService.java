@@ -51,4 +51,15 @@ public class ChannelService {
         channelRepository.deleteById(id);
         return true;
     }
+
+    public Channel updateChannel(Long id, String channelName){
+        Channel channel = channelRepository.getOne(id);
+        channel.setChannelName(channelName);
+        return channelRepository.save(channel);
+    }
+
+    public Boolean deleteAll() {
+        channelRepository.deleteAll();
+        return true;
+    }
 }

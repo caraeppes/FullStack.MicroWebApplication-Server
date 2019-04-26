@@ -65,9 +65,19 @@ public class ChannelController {
         return new ResponseEntity<>(channelService.findByChannelName(name), HttpStatus.OK);
     }
 
+    @PutMapping("/{id}/update/")
+    public ResponseEntity<Channel> updateChannel(@PathVariable Long id, @RequestParam String channelName) {
+        return new ResponseEntity<>(channelService.updateChannel(id, channelName), HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id){
         return new ResponseEntity<>(channelService.delete(id), HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/all")
+    public ResponseEntity<Boolean> deleteAll(){
+        return new ResponseEntity<>(channelService.deleteAll(), HttpStatus.NOT_FOUND);
     }
 }
 

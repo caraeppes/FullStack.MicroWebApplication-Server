@@ -30,7 +30,7 @@ public class ChannelTests {
         ObjectMapper objectMapper = new ObjectMapper();
         Channel channel = new Channel();
         channel.setChannelName(givenName);
-        String expected = "{\"id\":null,\"channelName\":\"chatter\"}";
+        String expected = "{\"id\":null,\"channelName\":\"chatter\",\"private\":false}";
 
         // When
         String actual = objectMapper.writeValueAsString(channel);
@@ -89,7 +89,7 @@ public class ChannelTests {
         Channel channel = new Channel();
         channel.setId(5L);
         channel.setChannelName("test");
-        String expected = "Channel{id=5, channelName='test', users=[]}";
+        String expected = "Channel{id=5, channelName='test', users=[], isPrivate=false}";
 
         // When
         String actual = channel.toString();

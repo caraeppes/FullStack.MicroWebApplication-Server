@@ -68,7 +68,7 @@ public class Channel {
                 "id=" + id +
                 ", channelName='" + channelName + '\'' +
                 ", users=" + users +
+                ", isPrivate=" + isPrivate +
                 '}';
     }
-
 }
