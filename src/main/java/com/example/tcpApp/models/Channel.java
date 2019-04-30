@@ -22,7 +22,7 @@ public class Channel {
     @JsonIgnore
     private List<User> users = new ArrayList<>();
     @Column(name = "private")
-    private boolean isPrivate;
+    private boolean isPrivate = false;
 
     public Channel(){ }
 
