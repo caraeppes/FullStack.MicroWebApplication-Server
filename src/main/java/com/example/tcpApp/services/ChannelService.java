@@ -1,19 +1,21 @@
 package com.example.tcpApp.services;
 
 import com.example.tcpApp.models.Channel;
+import com.example.tcpApp.models.User;
 import com.example.tcpApp.repositories.ChannelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ChannelService {
 
-    private ChannelRepository channelRepository;
-
     @Autowired
-    public ChannelService(ChannelRepository channelRepository) {
-        this.channelRepository = channelRepository;
-    }
+    private ChannelRepository channelRepository;
+    @Autowired
+    private UserService userService;
 
     public Channel create(Channel channel){
         return channelRepository.save(channel);
@@ -31,8 +33,33 @@ public class ChannelService {
         return channelRepository.findAll();
     }
 
+    public Iterable<Channel> findByIsPrivate(boolean isPrivate) {
+        return channelRepository.findByIsPrivate(isPrivate);
+    }
+
+    public Iterable<Channel> findAllPMsOfAUser(User user) {
+        List<Channel> privateChannels = new ArrayList<>();
+        for (Channel c : findByIsPrivate(true)) {
+            if (userService.findAllByChannel(c.getId(), null).contains(user)) {
+                privateChannels.add(c);
+            }
+        }
+        return privateChannels;
+    }
+
     public Boolean delete(Long id){
         channelRepository.deleteById(id);
+        return true;
+    }
+
+    public Channel updateChannel(Long id, String channelName){
+        Channel channel = channelRepository.getOne(id);
+        channel.setChannelName(channelName);
+        return channelRepository.save(channel);
+    }
+
+    public Boolean deleteAll() {
+        channelRepository.deleteAll();
         return true;
     }
 }

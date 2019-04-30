@@ -48,11 +48,6 @@ public class UserController {
         return new ResponseEntity<>(userService.findAllByChannel(channelId, pageable), HttpStatus.OK);
     }
 
-    @GetMapping("/findByPrivateChannel/{channelId}")
-    public ResponseEntity<List<User>> findByPrivateChannel(@PathVariable Long channelId, Pageable pageable) {
-        return new ResponseEntity<>(userService.findAllByPrivateChannel(channelId, pageable), HttpStatus.OK);
-    }
-
     @PutMapping("/{id}/connect")
     public ResponseEntity<User> connect(@PathVariable Long id) {
         return new ResponseEntity<>(userService.connect(id), HttpStatus.OK);
@@ -88,30 +83,13 @@ public class UserController {
         return new ResponseEntity<>(userService.joinChannel(id, channelId), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/joinPrivateChannel")
-    public ResponseEntity<User> joinPrivateChannel(@PathVariable Long id, @RequestParam Long privateChannelId) {
-        return new ResponseEntity<>(userService.joinPrivateChannel(id, privateChannelId), HttpStatus.OK);
-    }
-
     @PutMapping("/{username}/join/")
     public ResponseEntity<User> joinChannel(@PathVariable String username, @RequestParam String channel) {
         return new ResponseEntity<>(userService.joinChannelByName(username, channel), HttpStatus.OK);
-    }
-
-    @PutMapping("/{username}/joinPrivate/")
-    public ResponseEntity<User> joinPrivateChannel(@PathVariable String username, @RequestParam String privateChannel) {
-        return new ResponseEntity<>(userService.joinPrivateChannelByName(username, privateChannel), HttpStatus.OK);
     }
 
     @PutMapping("/{username}/leave/")
     public ResponseEntity<User> leaveChannel(@PathVariable String username, @RequestParam String channel) {
         return new ResponseEntity<>(userService.leaveChannel(username, channel), HttpStatus.OK);
     }
-
-    @PutMapping("/{username}/leavePrivate/")
-    public ResponseEntity<User> leavePrivateChannel(@PathVariable String username, @RequestParam String privateChannel) {
-        return new ResponseEntity<>(userService.leavePrivateChannel(username, privateChannel), HttpStatus.OK);
-    }
-
-
 }
