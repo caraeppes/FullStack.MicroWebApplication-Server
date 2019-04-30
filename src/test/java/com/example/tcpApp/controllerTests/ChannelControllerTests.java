@@ -102,8 +102,9 @@ public class ChannelControllerTests {
         ((ArrayList<Channel>) expectedChannels).add(channel2);
         HttpStatus expected = HttpStatus.OK;
         BDDMockito.
-                given(channelService.findAll())
+                given(channelService.findByIsPrivate(false))
                 .willReturn(expectedChannels);
+        System.out.println(expectedChannels);
 
         // When
         ResponseEntity<Iterable<Channel>> response = channelController.findAll();

@@ -52,9 +52,14 @@ public class ChannelService {
         return true;
     }
 
-    public Channel makePrivate(Long id){
-        Channel original = this.channelRepository.getOne(id);
-        original.setPrivate(true);
-        return channelRepository.save(original);
+    public Channel updateChannel(Long id, String channelName){
+        Channel channel = channelRepository.getOne(id);
+        channel.setChannelName(channelName);
+        return channelRepository.save(channel);
+    }
+
+    public Boolean deleteAll() {
+        channelRepository.deleteAll();
+        return true;
     }
 }
