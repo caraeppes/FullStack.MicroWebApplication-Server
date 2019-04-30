@@ -21,7 +21,8 @@ public class Channel {
     @ManyToMany(mappedBy = "channels")
     @JsonIgnore
     private List<User> users = new ArrayList<>();
-    private boolean isPrivate;
+    @Column(name = "private")
+    private boolean isPrivate = false;
 
     public Channel(){ }
 
